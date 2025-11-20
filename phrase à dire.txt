@@ -1,0 +1,5 @@
+Dire que le sdpnnées viennent de the look donc moins d'interet pour les pb de data quality mais pot ca ya d'autres projets.
+un bon ROAS se doit d'être cohérent avec le ROI, c'est-à-dire avec des objectifs plus larges que celui de réussir une campagne publicitaire en particulier.
+Montrer que le projet est construit brique par brique et que tout est adaptable (montrer les modules).
+plus votre marge est importante, moins votre ROAS a besoin d’être élevé (et vice versa). C’est pourquoi le calcul du ROAS d’une campagne publicitaire est indissociable de celui du ROI.
+Le calcul du ROAS a pour principale limite de ne pas tenir compte de la marge commerciale réalisée, ni des effets de la Customer Lifetime Value
