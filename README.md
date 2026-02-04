@@ -17,6 +17,4 @@ streamlit run app.py
 - Acquisition & Attribution — performance par canal + attribution simple
 - Cohortes & Rétention — heatmap de cohorte (1er achat)
 - Segments & Scoring — RFM + KMeans (clients)
-- A/B Testing — test statistique (p-value, IC)
-- What-if — simulation budget/prix/taux de conversion
-- Rapport & Export — résumé + export CSV/XLSX
+- A/B Testing — test statistique

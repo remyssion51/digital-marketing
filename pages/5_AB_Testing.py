@@ -5,7 +5,40 @@ from statsmodels.stats.proportion import proportions_ztest
 import plotly.express as px
 from helpers import load_ab_safari_chrome
 
-st.title("🧪 A/B Testing — Safari vs Chrome")
+st.title("🧪 A/B Testing - Safari vs Chrome")
+
+st.markdown("""
+
+Ce test compare le comportement des visiteurs selon le navigateur utilisé :
+**Chrome (A)** vs **Safari (B)**.
+
+L’objectif est de vérifier si le navigateur influence le taux de conversion,
+ce qui peut révéler :
+- un problème d’affichage du site,
+- une expérience utilisateur différente,
+- ou une incompatibilité technique.
+
+---
+
+Pour chaque navigateur, on mesure :
+- le nombre de visiteurs (sessions)
+- le nombre de conversions (commandes)
+
+On calcule ensuite le **taux de conversion**, puis on applique un **test statistique** pour savoir si la différence
+entre Safari et Chrome est **statistiquement significative** ou simplement due au hasard.
+
+---
+
+### 🎯 Comment interpréter le résultat
+
+- Si la différence est **significative** :  
+  cela signifie qu’un navigateur convertit réellement mieux que l’autre.  
+  → il faut investiguer (bug, lenteur, affichage…)
+
+- Si la différence **n’est pas significative** :  
+  les performances sont similaires, aucune action spécifique n’est nécessaire.
+""")
+
 
 # chargement unique
 ab = load_ab_safari_chrome()

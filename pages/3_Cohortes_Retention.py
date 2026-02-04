@@ -6,7 +6,7 @@ st.title("👥 Cohortes & Rétention")
 
 orders = load_orders().copy()
 
-orders["_cust"] = (orders["country"].astype(str) + "_" + orders["channel"].astype(str) + "_" + (orders["order_id"]%2000).astype(str)) if "order_id" in orders.columns else                   (orders["country"].astype(str) + "_" + orders["channel"].astype(str) + "_" + (orders.index%2000).astype(str))
+orders["_cust"] = (orders["country"].astype(str) + "_" + orders["channel"].astype(str) + "_" + (orders["user_id"]%2000).astype(str)) if "user_id" in orders.columns else                   (orders["country"].astype(str) + "_" + orders["channel"].astype(str) + "_" + (orders.index%2000).astype(str))
 
 orders["cohort_month"] = orders.groupby("_cust")["date"].transform("min").dt.to_period("M").astype(str)
 orders["order_month"]  = orders["date"].dt.to_period("M").astype(str)
@@ -28,4 +28,30 @@ st.subheader("Heatmap de rétention (0 = mois de cohorte)")
 fig = px.imshow(ret, aspect="auto", labels=dict(x="Mois depuis cohorte", y="Cohorte", color="Rétention"),
                 color_continuous_scale="Blues")
 st.plotly_chart(fig, use_container_width=True)
-st.caption("NB : identifiant client pseudo. Remplacez-le par un vrai `user_id` si disponible.")
+
+st.markdown("""
+
+Pour lire la heatmap, chaque ligne correspond à une **cohorte de clients** qui font leur première commande.
+Chaque colonne représente le **nombre de mois écoulés** depuis cette première commande.
+
+- **M0** = mois du premier achat (100% par définition)
+- **M1** = % de ces clients revenus acheter le mois suivant
+- **M2** = % revenus deux mois après
+- etc.
+
+Plus la case est foncée, plus la proportion de clients qui reviennent est élevée.
+
+---
+
+On observe que des clients continuent d’acheter pendant **de très nombreux mois** et même que la retention semble augmenter après le premier mois.
+Or, dans la réalité du retail :
+- la majorité des clients n’achètent **qu’une seule fois**
+- la rétention chute très vite après 2–3 mois
+- après 1 an, presque aucun client ne revient
+
+Ces données proviennent d’un dataset pédagogique où le comportement des utilisateurs
+a été simulé pour faciliter les analyses, et non pour reproduire fidèlement
+le comportement réel d’acheteurs de vêtements.
+La heatmap est donc **mathématiquement correcte**, mais **business irréaliste**.
+""")
+

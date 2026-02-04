@@ -4,7 +4,24 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from helpers import load_orders
 
-st.title("🧩 Segments & Scoring — RFM + KMeans")
+st.title("🧩 Segments & Scoring")
+
+st.markdown("""
+On utilise la méthode RFM. Son intérêt est de segmenter les clients selon leur comportement d’achat :
+
+- **R (Recency)** : depuis combien de temps le client n’a pas acheté
+- **F (Frequency)** : à quelle fréquence il achète
+- **M (Monetary)** : combien il dépense
+
+Ces trois indicateurs résument très bien la **valeur marketing d’un client**.
+
+L’objectif est de regrouper les clients ayant des comportements similaires
+afin d’adapter les actions marketing (emails, promos, relances, fidélisation…).
+
+On choisit volontairement un petit nombre de groupes car cela permet une segmentation
+simple, lisible et exploitable par une équipe marketing, en plus de donner des clusters interprétables facilement.
+""")
+
 
 orders = load_orders().copy()
 max_date = orders["date"].max()

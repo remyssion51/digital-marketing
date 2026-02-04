@@ -2,7 +2,9 @@ import streamlit as st, pandas as pd, numpy as np
 import plotly.express as px
 from helpers import load_sessions, load_orders, load_spend
 
-st.title("🏠 Overview — KPI & Tendances")
+st.title("🏠 Overview - KPI & Tendances")
+
+
 
 sessions = load_sessions()
 orders   = load_orders()
@@ -60,24 +62,24 @@ roas           = revenue/spend_total if spend_total>0 else None
 aov            = revenue/orders_count if orders_count>0 else 0
 
 c1,c2,c3,c4,c5 = st.columns(5)
-with c1: st.metric("Sessions", km(total_sessions))
-with c2: st.metric("Commandes", km(orders_count))
-with c3: st.metric("CA", km(revenue)+"€")
+with c1: st.metric("Nombre de connexions", km(total_sessions))
+with c2: st.metric("Nombre de Commandes", km(orders_count))
+with c3: st.metric("CA (dépenses clients)", km(revenue)+"€")
 with c4: st.metric("Conversion", f"{conv_rate*100:.2f}%")
-with c5: st.metric("AOV", km(aov)+"€")
+with c5: st.metric("AOV (Panier moyen)", km(aov)+"€")
 
 
 # ==============================
 #  GRAPH 1 : TREND30D SEULE
 # ==============================
-st.subheader("Revenu quotidien — Trendline 30j")
+st.subheader("Revenu moyen des 30 derniers jours")
 
 ts = ord_f.groupby("date",as_index=False)["revenue"].sum()
 if len(ts):
     ts = ts.sort_values("date")
     ts["trend30d"] = ts["revenue"].rolling(30).mean()
     fig = px.line(ts,x="date",y="trend30d")
-    fig.update_layout(yaxis_title="Revenu moy. 30j")
+    fig.update_layout(yaxis_title="Revenu moyen 30j")
     st.plotly_chart(fig,use_container_width=True)
 else:
     st.warning("Pas de données pour la période sélectionnée.")
@@ -86,6 +88,19 @@ else:
 # ==============================
 #  GRAPH 2 : SESSIONS / CHANNEL
 # ==============================
+
+st.markdown("""
+            Les canaux d'achat sont très importants en e-commerce car ils impliquent des engagements clients ainsi que des coûts d'acquisition différents.
+
+| Channel      | Ce que ça représente                                                           | Exemple concret                   | Rôle dans le marketing                                                            | Particularité typique                        |
+| ------------ | ------------------------------------------------------------------------------ | --------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------- |
+| **Search**   | Visiteurs venant des moteurs de recherche via des annonces payantes            | Google Ads, Bing Ads              | Canal d’**intention forte** : les gens cherchent déjà un produit                  | Bonne conversion, coût modéré                |
+| **Organic**  | Visiteurs venant des résultats naturels (non payants) des moteurs de recherche | SEO, articles de blog             | Trafic **gratuit** et régulier                                                    | Conversion moyenne, pas de dépense marketing |
+| **Facebook** | Publicité sur les réseaux sociaux                                              | Facebook / Instagram Ads          | Canal de **découverte** : on montre le produit à des gens qui ne le cherchent pas | Conversion faible, utile pour la notoriété   |
+| **Display**  | Bannières publicitaires sur des sites web                                      | Bannières sur des blogs, médias   | Canal très large, peu ciblé                                                       | Très faible conversion, coûte peu            |
+| **Email**    | Campagnes email envoyées aux clients ou prospects                              | Newsletter, promo, relance panier | Canal de **fidélisation** et de relance                                           | Très bonne conversion, très peu coûteux      |
+
+            """)
 st.subheader("Sessions par channel")
 s_by_ch = sess_f.groupby("channel",as_index=False)["sessions"].sum().sort_values("sessions",ascending=False)
 fig2 = px.bar(s_by_ch,x="channel",y="sessions",text=s_by_ch["sessions"].apply(km))
